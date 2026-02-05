@@ -94,7 +94,7 @@ def create_spend_chart(categories):
     for i in categories:
         spent = 0
 
-        ## Calcula o total gasto e adiciona o valor x gasto pela categoria a uma lista
+        # Calcula o total gasto e adiciona o valor x gasto pela categoria a uma lista
         for s in i.ledger:
             if s['amount'] < 0:
                 totalSpent += -s['amount']
@@ -103,8 +103,9 @@ def create_spend_chart(categories):
                 totalSpent += 0
         eachSpent.append(spent)
 
-        ## Divide o valor da lista por 100 e ve quantos % ele gastou
+        # Divide o valor da lista por 100 e ve quantos % ele gastou
 
+    #
     for g in eachSpent:
         result = g / totalSpent * 100
 
@@ -112,6 +113,7 @@ def create_spend_chart(categories):
     lines = []
     lines.append('Percentage spent by category')
 
+    # Esse loop cria as colunas do gráfico
     while x >= 0:
         string = f'{str(x).rjust(3, " ")}|'
         for y in perSpent:
