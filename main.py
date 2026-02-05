@@ -2,16 +2,19 @@ from itertools import zip_longest
 from math import floor
 from math import ceil
 
-
+# Classe de categoria de gastos
 class Category:
     def __init__(self, name):
         self.name = name
         self.ledger = []
 
+
     def deposit(self, amount, description=''):
+        """Método para depositar uma quantia na conta atual, com uma descrição opcional"""
         self.ledger.append({'amount': amount, 'description': description})
 
     def withdraw(self, amount, description=''):
+        """Método para sacar uma quantia da conta se a quantia existir dentro da categoria atual"""
         if self.check_funds(amount):
             self.ledger.append({'amount': -amount, 'description': description})
             return True
@@ -20,6 +23,7 @@ class Category:
             return False
 
     def get_balance(self):
+        """Retorna a quantia de dinheiro atual da conta"""
         balance = 0
 
         for n in self.ledger:
@@ -27,6 +31,7 @@ class Category:
         return balance
 
     def transfer(self, amount, target):
+        """Função de transfêrencia para outra categoria, gera o withdraw e deposit nas respectivas contas"""
         if self.check_funds(amount):
             self.withdraw(amount, f'Transfer to {target.name}')
             target.deposit(amount, f'Transfer from {self.name}')
@@ -36,6 +41,7 @@ class Category:
             return False
 
     def check_funds(self, amount):
+        """Retorna true caso possuir a quantia requisitada e false se não"""
         if amount > self.get_balance():
             return False
 
@@ -43,6 +49,8 @@ class Category:
             return True
 
     def __str__(self):
+        """Cria a representação em String da categoria"""
+
 
         left_padding = (15 - floor(len(self.name) / 2))
         right_padding = (15 - ceil(len(self.name) / 2))
@@ -58,6 +66,8 @@ class Category:
 
 
 def writehr(m, y='', z='', p=''):
+    """Função feita pra escrever até quatro palavras horizontalmente, requisitada no desafio"""
+
     cols = [
         m.name,
         y.name if isinstance(y, Category) else '',
@@ -75,6 +85,8 @@ def writehr(m, y='', z='', p=''):
 
 
 def create_spend_chart(categories):
+    """Função para criar um gráfico mostrando a porcentagem de gasto de cada categoria"""
+
     x = 100
     totalSpent = 0
     eachSpent = []
@@ -125,6 +137,5 @@ groceries.deposit(1000, 'deposit')
 groceries.withdraw(900, 'groceries')
 
 print(writehr(*[food, clothes, groceries]))
-##print(food)
-##print(clothes)
+
 print(create_spend_chart([food, clothes, groceries]))
