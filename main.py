@@ -55,12 +55,17 @@ class Category:
         left_padding = (15 - floor(len(self.name) / 2))
         right_padding = (15 - ceil(len(self.name) / 2))
 
+        # Cria um titulo com o nome da categoria centralizada
         title = f'{"*" * left_padding}{self.name}{"*" * right_padding}'
         lines = [title]
+
+        # Resume os gastos
         for x in self.ledger:
             number = f'{x["amount"]:.2f}'
 
             lines.append((f'{x["description"].ljust(23, " ")[:23]}{number.rjust(7, " ")}'))
+
+        # Mostra o total
         lines.append(f'Total: {self.get_balance()}')
         return '\n'.join(lines)
 
@@ -103,9 +108,7 @@ def create_spend_chart(categories):
                 totalSpent += 0
         eachSpent.append(spent)
 
-        # Divide o valor da lista por 100 e ve quantos % ele gastou
-
-    #
+    # Transforma a quantia gasta de cada categoria em porcentagem
     for g in eachSpent:
         result = g / totalSpent * 100
 
@@ -122,7 +125,10 @@ def create_spend_chart(categories):
         lines.append(string)
         x -= 10
 
+    # Adiciona na lista "linhas" um separador
     lines.append('-'.rjust(5, " ") + f'{"---" * len(perSpent)}')
+
+    # Adiciona na lista linhas as palavras de cada categoria escrita horizontalmente
     lines.append(writehr(*categories))
     return '\n'.join(lines)
 
